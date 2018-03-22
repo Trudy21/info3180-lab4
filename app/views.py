@@ -31,6 +31,7 @@ def about():
 
 @app.route('/upload', methods=['POST', 'GET'])
 def upload():
+ def UploadForm(FlaskForm):
     if not session.get('logged_in'):
         abort(401)
 
