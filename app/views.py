@@ -24,31 +24,27 @@ def about():
     """Render the website's about page."""
     return render_template('about.html', name="Mary Jane")
 
-
 @app.route('/upload', methods=['POST', 'GET'])
 def upload():
- 
     if not session.get('logged_in'):
         abort(401)
-
     # Instantiate your form class
     form=UploadForm()
-    if request.method == 'GET':
-     if form.validate_on_submit():
-         return render_template('upload.html')  
+    if request.method == 'GET' and form.validate_on_submit():
     # Validate file upload on submit
-    if request.method == 'POST':
-        # Get file data and save to your uploads folder
+     if request.method == 'POST':
         photo = request.files['photo']
+        description = request.files['description']
         filename = secure_filename(photo.filename)
         photo.save(os.path.join(
-            app.config['UPLOAD_FOLDER'], filename
-        ))
+        app.config['UPLOAD_FOLDER'], filename))
+        # Get file data and save to your uploads folder
+
         flash('File Saved', 'success')
-    return redirect(url_for('home'))
+        return redirect(url_for('home'))
+
+    return render_template('upload.html', form=form)
     
-
-
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     error = None
