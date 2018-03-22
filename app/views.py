@@ -19,7 +19,10 @@ def home():
     """Render website's home page."""
     return render_template('home.html')
 
-
+@app.route('/')
+def UploadForm():
+    return render_template('forms.html')
+    
 @app.route('/about/')
 def about():
     """Render the website's about page."""
@@ -39,8 +42,8 @@ def upload():
 
         flash('File Saved', 'success')
         return redirect(url_for('home'))
-
-    return render_template('upload.html')
+    if request.method == 'Get':
+     return render_template('upload.html')
 
 
 @app.route('/login', methods=['POST', 'GET'])
