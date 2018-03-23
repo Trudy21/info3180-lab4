@@ -33,16 +33,14 @@ def upload():
     if request.method == 'GET' and form.validate_on_submit():
     # Validate file upload on submit
      if request.method == 'POST':
-        description = request.files['description']
-        photo = request.files['photo']
+        
         filename = secure_filename(photo.filename)
         photo.save(os.path.join(
         app.config['UPLOAD_FOLDER'], filename))
-        
         # Get file data and save to your uploads folder
 
         flash('File Saved', 'success')
-        return redirect(url_for('home', filename=filename, description=description))
+        return redirect(url_for('home'))
 
     return render_template('upload.html', form=form)
     
@@ -53,7 +51,7 @@ def login():
         if request.form['username'] != app.config['USERNAME'] or request.form['password'] != app.config['PASSWORD']:
             error = 'Invalid username or password'
         else:
-            session['logged_in'] = True
+    form=UploadForm(request.form)
             
             flash('You were logged in', 'success')
             return redirect(url_for('upload'))

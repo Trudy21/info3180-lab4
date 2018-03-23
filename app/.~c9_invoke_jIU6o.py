@@ -30,19 +30,17 @@ def upload():
         abort(401)
     # Instantiate your form class
     form=UploadForm()
-    if request.method == 'GET' and form.validate_on_submit():
+    if request.method == 'GET' and myform.validate_on_submit():
     # Validate file upload on submit
      if request.method == 'POST':
-        description = request.files['description']
-        photo = request.files['photo']
+        
         filename = secure_filename(photo.filename)
         photo.save(os.path.join(
         app.config['UPLOAD_FOLDER'], filename))
-        
         # Get file data and save to your uploads folder
 
         flash('File Saved', 'success')
-        return redirect(url_for('home', filename=filename, description=description))
+        return redirect(url_for('home'))
 
     return render_template('upload.html', form=form)
     
