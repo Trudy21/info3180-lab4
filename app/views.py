@@ -49,6 +49,24 @@ def upload():
     flash_errors(photoform)
     return render_template('upload.html', form=photoform)
 
+def get_uploaded_images():
+    photo = []
+    for subdir, dirs, files in os.walk(app.config['UPLOAD_FOLDER']):
+        for file in files:
+            photo.append(file)
+    photo.sort()
+    del photo[0]
+    return photo
+            
+@app.route('/files')
+def files():
+    if not session.get('logged_in'):
+        abort(401)
+    photolist = get_uploaded_images()
+    print photolist
+    return render_template('files.html', photos = photolist)
+
+
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     error = None
