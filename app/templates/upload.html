@@ -2,19 +2,13 @@
 
 {% block main %}
 <h1 class="page-header">File Upload</h1>
-
+{% include 'flash_messages.html' %}
 Select the desired file
-<form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
-    {% include 'flash_messages.html' %}
-         <div class="hello">
-            {{ form.description.label }}
-            {{ form.description(class="trump") }}
-        </div>
-        <div class="hello">
-            {{ form.photo.label }}
-            {{ form.photo(class="trump") }}
-        </div>
-{{ form.csrf_token }}
+<form action="{{ url_for('upload') }}" enctype="multipart/form-data" method="POST">
+     {{ form.csrf_token }}
+
+  {{ form.photo.label }}
+  {{ form.photo(class="photo") }}
  <button type="submit" name="submit" class="btn btn-primary">Upload file</button>
 </form>
 {% endblock %}
